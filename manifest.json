@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "favorites",
+  "version": "1.0",
+  "description": "Ajoutez vos sites favoris dans une liste.",
+  "icons": {
+    "48": "icon.png"
+  },
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "add-favorite": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F"
+      },
+      "description": "Ajouter le site actuel aux favoris"
+    }
+  },
+  "incognito": "split"
+}
