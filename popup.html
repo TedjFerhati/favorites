@@ -2,124 +2,188 @@
 <html>
 
 <head>
-  <title>Favorites</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: rgb(42, 42, 46);
-      margin: 0;
-      padding: 0;
-    }
+	<title>Favorites</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: rgb(42, 42, 46);
+			margin: 0;
+			padding: 0;
+		}
 
-    .container {
-      width: 780px;
-      min-height: 150px;
-      padding: 20px 10px;
-      box-sizing: border-box;
-    }
+		.container {
+			width: 780px;
+			min-height: 150px;
+			padding: 20px 10px;
+			box-sizing: border-box;
+		}
 
-    button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 16px;
-      border-radius: 5px;
-    }
+		button {
+			background-color: #007bff;
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			cursor: pointer;
+			font-size: 16px;
+			border-radius: 5px;
+		}
 
-    button:hover {
-      background-color: #0056b3;
-    }
+		button:hover {
+			background-color: #0056b3;
+		}
 
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin-top: 20px;
-      display: grid;
-      grid-auto-flow: column;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(14, auto);
-      gap: 4px;
-    }
+		ul {
+			list-style-type: none;
+			padding: 0;
+			margin-top: 20px;
+			display: grid;
+			grid-auto-flow: column;
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-rows: repeat(14, auto);
+			gap: 4px;
+		}
 
-    li {
-      display: flex;
-      align-items: center;
-      padding: 5px 5px ;
-      background-color: rgb(66, 66, 73);
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      cursor: move;
-      gap: 5px;
-    }
+		li {
+			display: flex;
+			align-items: center;
+			padding: 5px 5px;
+			background-color: rgb(66, 66, 73);
+			border-radius: 5px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			cursor: move;
+			gap: 5px;
+		}
 
-    li:hover {
-      background-color: rgb(83, 83, 104);
-    }
+		li:hover {
+			background-color: rgb(83, 83, 104);
+		}
 
-    img {
-      width: 16px;
-      height: 16px;
-    }
+		img {
+			width: 16px;
+			height: 16px;
+		}
 
-    a {
-      flex-grow: 1;
-      max-width: 160px;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      text-decoration: none;
-      color: rgb(255, 255, 255);
-    }
+		a {
+			flex-grow: 1;
+			max-width: 160px;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			text-decoration: none;
+			color: rgb(255, 255, 255);
+		}
 
-    button {
-      padding: 3px 5px 4px;
-      font-size: 12px;
-      border-radius: 3px;
-    }
+		button {
+			padding: 3px 5px 4px;
+			font-size: 12px;
+			border-radius: 3px;
+		}
 
-    button.edit {
-      opacity: 0.5;
-      background-color: #0056b3;
-    }
+		button.edit {
+			opacity: 0.5;
+			background-color: #0056b3;
+		}
 
-    button.edit:hover {
-      opacity: 1;
-      background-color: #007bff;
-    }
+		button.edit:hover {
+			opacity: 1;
+			background-color: #007bff;
+		}
 
-    button.delete {
-      opacity: 0.5;
-      background-color: rgb(66, 66, 73);
-      box-shadow: 0 0 0 0 inset red;
-    }
+		button.delete {
+			opacity: 0.5;
+			background-color: rgb(66, 66, 73);
+			box-shadow: 0 0 0 0 inset red;
+		}
 
-    button.delete:hover {
-      opacity: 1;
-      box-shadow: 0 0 0 2px inset red;
-    }
+		button.delete:hover {
+			opacity: 1;
+			box-shadow: 0 0 0 2px inset red;
+		}
 
-    .grid {
-      display: grid;
-      grid-template-columns: 3fr 1fr 1fr;
-      gap: 5px;
-    }
-  </style>
+		.grid {
+			display: grid;
+			grid-template-columns: 3fr 1fr 1fr;
+			gap: 5px;
+		}
+
+		/* Styles pour le drag and drop - à ajouter dans popup.html */
+
+		li.dragging {
+			opacity: 0.6;
+			background-color: #3a3a42;
+			box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+			transform: scale(1.02);
+			z-index: 100;
+		}
+
+		li.drag-over {
+			padding-top: 12px;
+			border-top: 3px solid #007bff;
+			transition: padding-top 0.2s ease;
+		}
+
+		/* Indicateur de position */
+
+
+		.drop-indicator {
+			position: absolute;
+			height: 3px;
+			background-color: #007bff;
+			width: 100%;
+			left: 0;
+			z-index: 50;
+			box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+			animation: pulse 1.5s infinite;
+		}
+
+		.drop-indicator.top {
+			top: -1px;
+		}
+
+		.drop-indicator.bottom {
+			bottom: -1px;
+		}
+
+		@keyframes pulse {
+			0% {
+				opacity: 0.6;
+			}
+			50% {
+				opacity: 1;
+			}
+			100% {
+				opacity: 0.6;
+			}
+		}
+
+		.favorites-list {
+			position: relative;
+		}
+
+		li {
+			position: relative;
+			transition: transform 0.15s ease, box-shadow 0.15s ease;
+		}
+
+		li:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		}
+	</style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="grid">
-      <button id="addCurrentSite">Add</button>
-      <button id="importFavoritesButton">Import</button>
-      <input type="file" id="importFile" style="display: none;" accept=".html">
-      <button id="exportFavorites">Export</button>
-    </div>
-    <div id="favoritesContainer" class="favorites-container">
-      <ul id="favoritesList" class="favorites-list"></ul>
-    </div>
-    <script src="popup.js"></script>
+<div class="container">
+	<div class="grid">
+		<button id="addCurrentSite">Add</button>
+		<button id="importFavoritesButton">Import</button>
+		<input type="file" id="importFile" style="display: none;" accept=".html">
+		<button id="exportFavorites">Export</button>
+	</div>
+	<div id="favoritesContainer" class="favorites-container">
+		<ul id="favoritesList" class="favorites-list"></ul>
+	</div>
+	<script src="popup.js"></script>
 </body>
 
 </html>
